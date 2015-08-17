@@ -235,7 +235,8 @@ func fieldIndex(f reflect.StructField, indexes map[string]int) int {
 	var name string
 	if tag := f.Tag.Get("csv"); tag != "" {
 		name = strings.Split(tag, ",")[0]
-	} else {
+	}
+	if name == "" {
 		name = f.Name
 	}
 	if i, ok := indexes[name]; ok {

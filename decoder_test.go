@@ -27,6 +27,9 @@ func TestUnmarshall(t *testing.T) {
 	type nameAndFormatTaggedTimeThing struct {
 		D time.Time `csv:"date,2006-01-02"`
 	}
+	type emptyTaggedThing struct {
+		Val string `csv:""`
+	}
 	var nilDst *thing
 	tests := []struct {
 		name string
@@ -144,6 +147,20 @@ func TestUnmarshall(t *testing.T) {
 			},
 			dst:  &thing{},
 			want: &thing{"str", 1, 1.5},
+		},
+		{
+			name: "defaults to field name if tag is empty",
+			data: []string{"value"},
+			idx:  map[string]int{"Val": 0},
+			dst:  &emptyTaggedThing{},
+			want: &emptyTaggedThing{"value"},
+		},
+		{
+			name: "defaults to field name if tag has empty name value before comma",
+			data: []string{"2010-01-02"},
+			idx:  map[string]int{"D": 0},
+			dst:  &taggedTimeThing{},
+			want: &taggedTimeThing{time.Date(2010, time.January, 2, 0, 0, 0, 0, time.UTC)},
 		},
 	}
 	for _, test := range tests {
