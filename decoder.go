@@ -119,6 +119,10 @@ func unmarshall(data []string, indexes map[string]int, assigners map[reflect.Kin
 			dataIndex = i
 		}
 
+		if n := len(data); dataIndex >= n {
+			return fmt.Errorf("csv: index out of range (field: %s, index %d, len(data): %d)", f.Name, dataIndex, n)
+		}
+
 		s := data[dataIndex]
 		v := e.Field(i)
 
