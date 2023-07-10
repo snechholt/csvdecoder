@@ -1,5 +1,5 @@
-// Package csv provides functionality for decoding rows of a CSV file into a struct.
-package csv
+// Package csvdecoder provides functionality for decoding rows of a CSV file into a struct.
+package csvdecoder
 
 import (
 	"errors"
